@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Assignment2</string>
+    <string name="label_title">Pass the Pigs</string>
+    <string name="button_pass">Pass</string>
+    <string name="button_Roll">Roll</string>
+    <string name="button_PvP">New Game (PvP)</string>
+    <string name="button_PvE">New Game (PvE)</string>
+    <string name="textView_Player1">Player 1</string>
+    <string name="textView_Player2">Player 2</string>
+    <string name="textView_TurnTotal">0</string>
+    <string name="textView_Player1Score">0</string>
+    <string name="textView_Player2Score">0</string>
+    <string name="textView_TurnScore">0</string>
+    <string name="textView_History">History</string>
+</resources>
