@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 
 /*
-class AIPlayer {
+class Player {
 
     fun willPlay(goalTotal: Int, turnTotal: Int, currentTotal: Int, opponentTotal: Int): Boolean {
         return turnTotal < 10
@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
     var p2Total = 0
     var player1Active = true
     var isPvEGame = false
+    var passed = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -50,68 +51,81 @@ class MainActivity : AppCompatActivity() {
         buttonPass.setOnClickListener {
             buttonPassOnClick()
         }
-/*
-        else {
-            while (p1Total < goalTotal || p2Total < goalTotal) {
-
-                while (p1ActivePlayer) {
-                    buttonRoll.setOnClickListener {
-                        buttonRollOnCLick()
-                    }
-                    buttonPass.setOnClickListener {
-                        buttonPassOnClick()
-                    }
-                }
-                p1Total += turnTotal
-                textViewP1Total.text = p1Total.toString()
-
-                while(!p1ActivePlayer) {
-
-                }
-            }
-        }
- */
     }
 
     private fun buttonRollOnCLick() {
         diNumber = (1..6).random()
-        if (diNumber != 1) {
-            turnTotal += diNumber
-            textViewTurnScore.text = diNumber.toString()
-            textViewTurnTotal.text = turnTotal.toString()
-        } else {
-            turnTotal = 0
-            textViewTurnScore.text = "0"
-            textViewTurnTotal.text = "0"
-            if (player1Active) {
-                textViewPlayer2.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundActive))
-                textViewPlayer1.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundInactive))
-                player1Active = false
-            }
-            else {
-                textViewPlayer1.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundActive))
-                textViewPlayer2.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundInactive))
-                player1Active = true
-            }
-        }
+        turnTotal += diNumber
     }
 
 
 
     private fun buttonPassOnClick() {
-        textViewTurnScore.text = "0"
-        textViewTurnTotal.text = "0"
         if (player1Active) {
+            passed = true
             p1Total += turnTotal
-            textViewP1Total.text = p1Total.toString()
+            updateUI()
         }
         else {
+            passed = true
             p2Total += turnTotal
-            textViewP2Total.text = p2Total.toString()
+            updateUI()
         }
     }
 
 
+
+    private fun updateUI() {
+        if (passed) {
+            textViewTurnScore.text = "0"
+            textViewTurnTotal.text = "0"
+            if (player1Active) {
+                textViewP1Total.text = p1Total.toString()
+            } else {
+                textViewP2Total.text = p2Total.toString()
+            }
+            passed = false
+            turnTotal = 0
+        } else {
+            if (diNumber != 1) {
+                textViewTurnScore.text = diNumber.toString()
+                textViewTurnTotal.text = turnTotal.toString()
+            } else {
+                turnTotal = 0
+                textViewTurnScore.text = "0"
+                textViewTurnTotal.text = "0"
+                if (player1Active) {
+                    textViewPlayer2.setBackgroundColor(
+                        ContextCompat.getColor(
+                            this,
+                            R.color.colorBackgroundActive
+                        )
+                    )
+                    textViewPlayer1.setBackgroundColor(
+                        ContextCompat.getColor(
+                            this,
+                            R.color.colorBackgroundInactive
+                        )
+                    )
+                    player1Active = false
+                } else {
+                    textViewPlayer1.setBackgroundColor(
+                        ContextCompat.getColor(
+                            this,
+                            R.color.colorBackgroundActive
+                        )
+                    )
+                    textViewPlayer2.setBackgroundColor(
+                        ContextCompat.getColor(
+                            this,
+                            R.color.colorBackgroundInactive
+                        )
+                    )
+                    player1Active = true
+                }
+            }
+        }
+    }
 /*
     private fun buttonPvPOnClick() {
 
@@ -127,5 +141,4 @@ class MainActivity : AppCompatActivity() {
 
     }
 */
-
 } //end class
