@@ -68,11 +68,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+    
     private fun buttonRollOnCLick() {
         diNumber = (1..6).random()
         turnTotal += diNumber
         updateUI()
     }
+
 
 
     private fun buttonPassOnClick() {
@@ -85,6 +88,30 @@ class MainActivity : AppCompatActivity() {
             p2Total += turnTotal
             updateUI()
         }
+    }
+
+
+
+    private fun buttonPvPOnClick() {
+        newGamePvP = true
+        turnTotal = 0
+        p1Total = 0
+        p2Total = 0
+        player1Active = true
+        updateUI()
+        newGamePvP = false
+    }
+
+
+
+    private fun buttonPvEOnClick() {
+        newGamePvE = true
+        turnTotal = 0
+        p1Total = 0
+        p2Total = 0
+        player1Active = true
+        updateUI()
+        newGamePvE = false
     }
 
 
@@ -140,28 +167,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-
-    private fun buttonPvPOnClick() {
-        newGamePvP = true
-        turnTotal = 0
-        p1Total = 0
-        p2Total = 0
-        player1Active = true
-        updateUI()
-        newGamePvP = false
-    }
-
-
-    private fun buttonPvEOnClick() {
-        newGamePvE = true
-        turnTotal = 0
-        p1Total = 0
-        p2Total = 0
-        player1Active = true
-        updateUI()
-        newGamePvE = false
     }
 
     private fun willPlay(goalTotal: Int, turnTotal: Int, currentTotal: Int): Boolean {
