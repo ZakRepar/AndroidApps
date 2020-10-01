@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 
 /*
 class AIPlayer {
@@ -23,6 +24,8 @@ class MainActivity : AppCompatActivity() {
     val buttonRoll = findViewById<Button>(R.id.buttonRoll)
     val textViewP1Total = findViewById<TextView>(R.id.textViewP1Total)
     val textViewP2Total = findViewById<TextView>(R.id.textViewP2Total)
+    val textViewPlayer1 = findViewById<TextView>(R.id.textViewPlayer1)
+    val textViewPlayer2 = findViewById<TextView>(R.id.textViewPlayer2)
     val buttonPvP = findViewById<Button>(R.id.buttonPvP)
     val buttonPvE = findViewById<Button>(R.id.buttonPvE)
     var diNumber = 0
@@ -30,39 +33,22 @@ class MainActivity : AppCompatActivity() {
     var turnTotal = 0
     var p1Total = 0
     var p2Total = 0
+    var player1Active = true
     var isPvEGame = false
-    var p1ActivePlayer = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (!isPvEGame) {
-            while (p1Total < goalTotal || p2Total < goalTotal) {
+        textViewPlayer1.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundActive))
+        textViewPlayer1.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundInactive))
 
-                while (p1ActivePlayer) {
-                    buttonRoll.setOnClickListener {
-                        buttonRollOnCLick()
-                    }
-                    buttonPass.setOnClickListener {
-
-                    }
-                }
-                p1Total += turnTotal
-                textViewP1Total.text = p1Total.toString()
-
-                while(!p1ActivePlayer) {
-                    buttonRoll.setOnClickListener {
-                        buttonRollOnCLick()
-                    }
-                    buttonPass.setOnClickListener {
-                        buttonPassOnClick()
-                    }
-                }
-                p2Total += turnTotal
-                textViewP2Total.text = p2Total.toString()
-            }
+        buttonRoll.setOnClickListener {
+            buttonRollOnCLick()
+        }
+        buttonPass.setOnClickListener {
+            buttonPassOnClick()
         }
 /*
         else {
@@ -97,7 +83,16 @@ class MainActivity : AppCompatActivity() {
             turnTotal = 0
             textViewTurnScore.text = "0"
             textViewTurnTotal.text = "0"
-            p1ActivePlayer = !p1ActivePlayer
+            if (player1Active) {
+                textViewPlayer2.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundActive))
+                textViewPlayer1.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundInactive))
+                player1Active = false
+            }
+            else {
+                textViewPlayer1.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundActive))
+                textViewPlayer2.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundInactive))
+                player1Active = true
+            }
         }
     }
 
@@ -106,7 +101,14 @@ class MainActivity : AppCompatActivity() {
     private fun buttonPassOnClick() {
         textViewTurnScore.text = "0"
         textViewTurnTotal.text = "0"
-        p1ActivePlayer = true
+        if (player1Active) {
+            p1Total += turnTotal
+            textViewP1Total.text = p1Total.toString()
+        }
+        else {
+            p2Total += turnTotal
+            textViewP2Total.text = p2Total.toString()
+        }
     }
 
 
