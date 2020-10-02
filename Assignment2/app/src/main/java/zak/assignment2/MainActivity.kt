@@ -64,7 +64,12 @@ class MainActivity : AppCompatActivity() {
         diNumber = (1..6).random()
         turnTotal += diNumber
         updateUI()
-        if (diNumber == 1) {
+        if (diNumber == 1 && !gameTypePvP && !player1Active) {
+            turnTotal = 0
+            player1Active = !player1Active
+            computerPlay()
+        }
+        else if (diNumber == 1){
             turnTotal = 0
             player1Active = !player1Active
         }
@@ -74,17 +79,20 @@ class MainActivity : AppCompatActivity() {
 
     private fun buttonPassOnClick() {
         passed = true
-        if (player1Active) {
+        if (player1Active && gameTypePvP) {
             p1Total += turnTotal
             updateUI()
             player1Active = false
-        } else if (!player1Active && gameTypePvP){
+        } else if (player1Active && !gameTypePvP){
+            p1Total += turnTotal
+            updateUI()
+            player1Active = false
+            computerPlay()
+        }
+        else {
             p2Total += turnTotal
             updateUI()
             player1Active = true
-        }
-        else {
-            computerPlay()
         }
         passed = false
         turnTotal = 0
@@ -132,34 +140,52 @@ class MainActivity : AppCompatActivity() {
         } else if (passed) {
             if (player1Active) {
                 if (p1Total >= 100) {
+                    player1Active = true
+                    p1Total = 0
+                    p2Total = 0
                     history.add("Player 1 won")
                     history.add("Please select a new game")
                     recyclerView.adapter = HistoryDataAdapter(history)
                     recyclerView.layoutManager = LinearLayoutManager(this)
+                    textViewPlayer1.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundActive))
+                    textViewPlayer2.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundInactive))
+                    textViewTurnScore.text = "0"
+                    textViewTurnTotal.text = "0"
+                    textViewP1Total.text = "0"
+                    textViewP2Total.text = "0"
                 }
                 else {
                     history.add("Player 1 passed")
                     recyclerView.adapter = HistoryDataAdapter(history)
                     recyclerView.layoutManager = LinearLayoutManager(this)
+                    textViewP1Total.text = p1Total.toString()
+                    textViewPlayer2.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundActive))
+                    textViewPlayer1.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundInactive))
                 }
-                textViewP1Total.text = p1Total.toString()
-                textViewPlayer2.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundActive))
-                textViewPlayer1.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundInactive))
             } else {
                 if (p2Total >= 100) {
+                    player1Active = true
+                    p1Total = 0
+                    p2Total = 0
                     history.add("Player 2 won")
                     history.add("Please select a new game")
                     recyclerView.adapter = HistoryDataAdapter(history)
                     recyclerView.layoutManager = LinearLayoutManager(this)
+                    textViewPlayer1.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundActive))
+                    textViewPlayer2.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundInactive))
+                    textViewTurnScore.text = "0"
+                    textViewTurnTotal.text = "0"
+                    textViewP1Total.text = "0"
+                    textViewP2Total.text = "0"
                 }
                 else {
                     history.add("Player 2 passed")
                     recyclerView.adapter = HistoryDataAdapter(history)
                     recyclerView.layoutManager = LinearLayoutManager(this)
+                    textViewP2Total.text = p2Total.toString()
+                    textViewPlayer2.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundInactive))
+                    textViewPlayer1.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundActive))
                 }
-                textViewP2Total.text = p2Total.toString()
-                textViewPlayer2.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundInactive))
-                textViewPlayer1.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundActive))
             }
             textViewTurnScore.text = "0"
             textViewTurnTotal.text = "0"
