@@ -1,0 +1,66 @@
+fun printNumbersForIn ( array: Array<Int>) {
+    
+    for ( i in array) {
+        if ( i > 50) {
+            println(i)
+        }
+    }
+}
+
+
+
+fun printNumbersForEach ( array: Array<Int>) {
+    
+    array.forEach() {
+        if ( it > 50) {
+        	println(it)
+        }
+    }
+}
+
+
+
+fun printNumbersWhile ( array: Array<Int>) {
+    
+    var i = 0;
+    while ( i < array.size) {
+    	if (array[i] > 50){
+           println(array[i]) 
+        } 
+        i++;
+    }
+}
+
+
+
+fun main() {
+    
+    val array1: Array<Int> = arrayOf() 			//empty array test
+    val array2 = arrayOf(1)	      				//single value array test
+    val array3 = arrayOf(1,2,3,4)				//no output generation test
+    val array4 = arrayOf(60)					//single output test
+    val array5 = arrayOf(51,52,53,54)			//all numbers pass test
+    val array6 = arrayOf(1,2,51,52,3,4,53,54)	//mixed test
+    
+    printNumbersForIn(array1)
+    printNumbersForIn(array2)
+    printNumbersForIn(array3)
+    printNumbersForIn(array4)
+    printNumbersForIn(array5)
+    printNumbersForIn(array6)
+    
+    printNumbersForEach(array1)
+    printNumbersForEach(array2)
+    printNumbersForEach(array3)
+    printNumbersForEach(array4)
+    printNumbersForEach(array5)
+    printNumbersForEach(array6)
+    
+    printNumbersWhile(array1)
+    printNumbersWhile(array2)
+    printNumbersWhile(array3)
+    printNumbersWhile(array4)
+    printNumbersWhile(array5)
+    printNumbersWhile(array6)
+    
+}

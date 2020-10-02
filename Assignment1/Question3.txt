@@ -1,0 +1,55 @@
+data class LineItem(val description: String, var price: Double, var quantity: Int) {
+    
+    val total get() = this.price * this.quantity.toDouble()
+
+}
+
+class Order () {
+    
+    var itemMap = mutableMapOf<String, LineItem>()
+    
+    fun addItem(item: LineItem): MutableMap<String, LineItem> {
+        
+        val foundItem = itemMap[item.description]
+        if (foundItem != null) { //knowing if foundItem is null allows for later arithmetic, also updates map information if an item of that description already exists
+            foundItem.price = item.price
+            foundItem.quantity = (foundItem.quantity + item.quantity)
+        }
+
+        else {
+            itemMap.put(item.description, item) //adds item to map if item type doesn't exist in the map yet
+        }
+		return itemMap
+    }
+    
+    fun total(): Double { //returns total of entire order
+        
+        var total: Double = 0.0
+        for ((k, v) in itemMap) {
+            total += v.price * v.quantity
+        }
+        return total
+    }
+    
+    fun printOrder(): Unit {
+        
+        for ((k, v) in itemMap) {
+            println (v.description + " :: " + v.quantity + " @ $" + v.price + " = " + "$" + v.total)
+        }
+        println ("TOTAL :: $" + total())
+	}
+}
+
+
+fun main() {
+    
+ val itemPizza = LineItem(description = "Pizza", price = 10.99, quantity = 1)
+ val itemCoke = LineItem(description = "Coke", price = 2.99, quantity = 1)
+ val itemCoke2 = LineItem(description = "Coke", price = 1.99, quantity = 2)
+ var order = Order()
+ order.addItem(itemPizza)
+ order.addItem(itemCoke)
+ order.addItem(itemCoke2)
+ order.printOrder()
+
+}
