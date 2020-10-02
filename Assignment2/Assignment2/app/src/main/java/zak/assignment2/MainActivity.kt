@@ -17,7 +17,6 @@ class MainActivity : AppCompatActivity() {
     private var p1Total = 0
     private var p2Total = 0
     private var player1Active = true
-    private var isPvEGame = false
     private var passed = false
     private var newGamePvP = false
     private var newGamePvE = false
@@ -44,7 +43,8 @@ class MainActivity : AppCompatActivity() {
             buttonPvE.setOnClickListener() {
                 buttonPvEOnClick()
             }
-        } else {
+        }
+        else {
             if (player1Active) {
                 buttonRoll.setOnClickListener {
                     buttonRollOnCLick()
@@ -58,11 +58,14 @@ class MainActivity : AppCompatActivity() {
                 buttonPvE.setOnClickListener() {
                     buttonPvEOnClick()
                 }
-            } else {
-                if (willPlay(goalTotal, turnTotal, p2Total)) {
-                    buttonRollOnCLick()
-                } else {
-                    buttonPassOnClick()
+            }
+            else {
+                while (p1Total < goalTotal || p2Total < goalTotal && !player1Active) {
+                    if (willPlay(goalTotal, turnTotal, p2Total)) {
+                        buttonRollOnCLick()
+                    } else {
+                        buttonPassOnClick()
+                    }
                 }
             }
         }
@@ -79,12 +82,11 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun buttonPassOnClick() {
+        passed = true
         if (player1Active) {
-            passed = true
             p1Total += turnTotal
             updateUI()
         } else {
-            passed = true
             p2Total += turnTotal
             updateUI()
         }
