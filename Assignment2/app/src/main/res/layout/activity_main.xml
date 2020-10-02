@@ -147,18 +147,15 @@
         app:layout_constraintStart_toStartOf="@+id/buttonRoll"
         app:layout_constraintTop_toTopOf="@+id/textViewP1Total" />
 
-    <TextView
-        android:id="@+id/textViewHistory"
-        android:layout_width="362dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:textAlignment="viewStart"
-        app:layout_constraintBottom_toTopOf="@+id/buttonPass"
-        app:layout_constraintEnd_toEndOf="@+id/buttonRoll"
-        app:layout_constraintHorizontal_bias="0.294"
-        app:layout_constraintStart_toStartOf="@+id/buttonPass"
-        app:layout_constraintTop_toBottomOf="@+id/textViewP2Total"
-        tools:text="@string/textView_History" />
+        app:layout_constraintBottom_toTopOf="@+id/buttonRoll"
+        app:layout_constraintEnd_toEndOf="@+id/textViewPlayer2"
+        app:layout_constraintStart_toStartOf="@+id/textViewPlayer1"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTurnScore" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

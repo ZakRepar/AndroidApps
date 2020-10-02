@@ -5,37 +5,23 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.activity_main.*
 
-/*
-class Player {
-
-    fun willPlay(goalTotal: Int, turnTotal: Int, currentTotal: Int, opponentTotal: Int): Boolean {
-        return turnTotal < 10
-    }
-}
-*/
 
 
 class MainActivity : AppCompatActivity() {
 
-    val textViewTurnTotal = findViewById<TextView>(R.id.textViewTurnTotal)
-    val textViewTurnScore = findViewById<TextView>(R.id.textViewTurnScore)
-    val buttonPass = findViewById<Button>(R.id.buttonPass)
-    val buttonRoll = findViewById<Button>(R.id.buttonRoll)
-    val textViewP1Total = findViewById<TextView>(R.id.textViewP1Total)
-    val textViewP2Total = findViewById<TextView>(R.id.textViewP2Total)
-    val textViewPlayer1 = findViewById<TextView>(R.id.textViewPlayer1)
-    val textViewPlayer2 = findViewById<TextView>(R.id.textViewPlayer2)
-    val buttonPvP = findViewById<Button>(R.id.buttonPvP)
-    val buttonPvE = findViewById<Button>(R.id.buttonPvE)
-    var diNumber = 0
-    val goalTotal = 100
-    var turnTotal = 0
-    var p1Total = 0
-    var p2Total = 0
-    var player1Active = true
-    var isPvEGame = false
-    var passed = false
+    private var diNumber = 0
+    private val goalTotal = 100
+    private var turnTotal = 0
+    private var p1Total = 0
+    private var p2Total = 0
+    private var player1Active = true
+    private var passed = false
+    private var newGame = false
+    private var gameTypePvP = true
+    private val history = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -43,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         textViewPlayer1.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundActive))
-        textViewPlayer1.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundInactive))
+        textViewPlayer2.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundInactive))
 
         buttonRoll.setOnClickListener {
             buttonRollOnCLick()
@@ -51,94 +37,173 @@ class MainActivity : AppCompatActivity() {
         buttonPass.setOnClickListener {
             buttonPassOnClick()
         }
+        buttonPvP.setOnClickListener() {
+            buttonPvPOnClick()
+        }
+        buttonPvE.setOnClickListener() {
+            buttonPvEOnClick()
+        }
     }
+
+
+
+    private fun computerPlay() {
+        while (!player1Active) {
+            if (willPlay(goalTotal, turnTotal, p2Total)) {
+                buttonRollOnCLick()
+            }
+            else {
+                buttonPassOnClick()
+            }
+        }
+    }
+
+
 
     private fun buttonRollOnCLick() {
         diNumber = (1..6).random()
         turnTotal += diNumber
+        updateUI()
+        if (diNumber == 1) {
+            turnTotal = 0
+            player1Active = !player1Active
+        }
     }
 
 
 
     private fun buttonPassOnClick() {
+        passed = true
         if (player1Active) {
-            passed = true
             p1Total += turnTotal
             updateUI()
-        }
-        else {
-            passed = true
+            player1Active = false
+        } else if (!player1Active && gameTypePvP){
             p2Total += turnTotal
             updateUI()
+            player1Active = true
         }
+        else {
+            computerPlay()
+        }
+        passed = false
+        turnTotal = 0
+    }
+
+
+
+    private fun buttonPvPOnClick() {
+        newGame = true
+        turnTotal = 0
+        p1Total = 0
+        p2Total = 0
+        player1Active = true
+        updateUI()
+        newGame = false
+        gameTypePvP = true
+    }
+
+
+
+    private fun buttonPvEOnClick() {
+        newGame = true
+        turnTotal = 0
+        p1Total = 0
+        p2Total = 0
+        player1Active = true
+        updateUI()
+        newGame = false
+        gameTypePvP = false
     }
 
 
 
     private fun updateUI() {
-        if (passed) {
+        if (newGame) {
+            textViewPlayer1.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundActive))
+            textViewPlayer2.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundInactive))
             textViewTurnScore.text = "0"
             textViewTurnTotal.text = "0"
+            textViewP1Total.text = "0"
+            textViewP2Total.text = "0"
+            history.add("A new game has been started")
+            recyclerView.adapter = HistoryDataAdapter(history)
+            recyclerView.layoutManager = LinearLayoutManager(this)
+        } else if (passed) {
             if (player1Active) {
+                if (p1Total >= 100) {
+                    history.add("Player 1 won")
+                    history.add("Please select a new game")
+                    recyclerView.adapter = HistoryDataAdapter(history)
+                    recyclerView.layoutManager = LinearLayoutManager(this)
+                }
+                else {
+                    history.add("Player 1 passed")
+                    recyclerView.adapter = HistoryDataAdapter(history)
+                    recyclerView.layoutManager = LinearLayoutManager(this)
+                }
                 textViewP1Total.text = p1Total.toString()
+                textViewPlayer2.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundActive))
+                textViewPlayer1.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundInactive))
             } else {
+                if (p2Total >= 100) {
+                    history.add("Player 2 won")
+                    history.add("Please select a new game")
+                    recyclerView.adapter = HistoryDataAdapter(history)
+                    recyclerView.layoutManager = LinearLayoutManager(this)
+                }
+                else {
+                    history.add("Player 2 passed")
+                    recyclerView.adapter = HistoryDataAdapter(history)
+                    recyclerView.layoutManager = LinearLayoutManager(this)
+                }
                 textViewP2Total.text = p2Total.toString()
+                textViewPlayer2.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundInactive))
+                textViewPlayer1.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundActive))
             }
-            passed = false
-            turnTotal = 0
+            textViewTurnScore.text = "0"
+            textViewTurnTotal.text = "0"
         } else {
             if (diNumber != 1) {
                 textViewTurnScore.text = diNumber.toString()
                 textViewTurnTotal.text = turnTotal.toString()
+                if (player1Active) {
+                    history.add("Player 1 rolled $diNumber")
+                    recyclerView.adapter = HistoryDataAdapter(history)
+                    recyclerView.layoutManager = LinearLayoutManager(this)
+                }
+                if (!player1Active){
+                    history.add("Player 2 rolled $diNumber")
+                    recyclerView.adapter = HistoryDataAdapter(history)
+                    recyclerView.layoutManager = LinearLayoutManager(this)
+                }
             } else {
-                turnTotal = 0
                 textViewTurnScore.text = "0"
                 textViewTurnTotal.text = "0"
                 if (player1Active) {
-                    textViewPlayer2.setBackgroundColor(
-                        ContextCompat.getColor(
-                            this,
-                            R.color.colorBackgroundActive
-                        )
-                    )
-                    textViewPlayer1.setBackgroundColor(
-                        ContextCompat.getColor(
-                            this,
-                            R.color.colorBackgroundInactive
-                        )
-                    )
-                    player1Active = false
+                    textViewPlayer2.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundActive))
+                    textViewPlayer1.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundInactive))
+                    history.add("Player 1 pigged out")
+                    recyclerView.adapter = HistoryDataAdapter(history)
+                    recyclerView.layoutManager = LinearLayoutManager(this)
                 } else {
-                    textViewPlayer1.setBackgroundColor(
-                        ContextCompat.getColor(
-                            this,
-                            R.color.colorBackgroundActive
-                        )
-                    )
-                    textViewPlayer2.setBackgroundColor(
-                        ContextCompat.getColor(
-                            this,
-                            R.color.colorBackgroundInactive
-                        )
-                    )
-                    player1Active = true
+                    textViewPlayer1.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundActive))
+                    textViewPlayer2.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundInactive))
+                    history.add("Player 2 pigged out")
+                    recyclerView.adapter = HistoryDataAdapter(history)
+                    recyclerView.layoutManager = LinearLayoutManager(this)
                 }
             }
         }
     }
-/*
-    private fun buttonPvPOnClick() {
 
+
+
+    private fun willPlay(goalTotal: Int, turnTotal: Int, currentTotal: Int): Boolean {
+        if (currentTotal + turnTotal >= goalTotal) {
+            return false
+        } else {
+            return turnTotal < 10
+        }
     }
-
-
-
-    private fun buttonPvPOnClick() {
-
-    }
-
-    private fun Reset() {
-
-    }
-*/
 } //end class
