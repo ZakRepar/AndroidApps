@@ -43,6 +43,8 @@ class MainActivity : AppCompatActivity() {
         buttonPvE.setOnClickListener() {
             buttonPvEOnClick()
         }
+        recyclerView.adapter = HistoryDataAdapter(history)
+        recyclerView.layoutManager = LinearLayoutManager(this)
     }
 
 
@@ -64,9 +66,12 @@ class MainActivity : AppCompatActivity() {
         diNumber = (1..6).random()
         turnTotal += diNumber
         updateUI()
-        if (diNumber == 1 && !gameTypePvP && !player1Active) {
+        if (diNumber == 1 && !gameTypePvP && player1Active) {
             turnTotal = 0
             player1Active = !player1Active
+            computerPlay()
+        }
+        else if (!player1Active && !gameTypePvP) {
             computerPlay()
         }
         else if (diNumber == 1){
@@ -135,8 +140,6 @@ class MainActivity : AppCompatActivity() {
             textViewP1Total.text = "0"
             textViewP2Total.text = "0"
             history.add("A new game has been started")
-            recyclerView.adapter = HistoryDataAdapter(history)
-            recyclerView.layoutManager = LinearLayoutManager(this)
         } else if (passed) {
             if (player1Active) {
                 if (p1Total >= 100) {
@@ -145,8 +148,6 @@ class MainActivity : AppCompatActivity() {
                     p2Total = 0
                     history.add("Player 1 won")
                     history.add("Please select a new game")
-                    recyclerView.adapter = HistoryDataAdapter(history)
-                    recyclerView.layoutManager = LinearLayoutManager(this)
                     textViewPlayer1.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundActive))
                     textViewPlayer2.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundInactive))
                     textViewTurnScore.text = "0"
@@ -156,8 +157,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 else {
                     history.add("Player 1 passed")
-                    recyclerView.adapter = HistoryDataAdapter(history)
-                    recyclerView.layoutManager = LinearLayoutManager(this)
                     textViewP1Total.text = p1Total.toString()
                     textViewPlayer2.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundActive))
                     textViewPlayer1.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundInactive))
@@ -169,8 +168,6 @@ class MainActivity : AppCompatActivity() {
                     p2Total = 0
                     history.add("Player 2 won")
                     history.add("Please select a new game")
-                    recyclerView.adapter = HistoryDataAdapter(history)
-                    recyclerView.layoutManager = LinearLayoutManager(this)
                     textViewPlayer1.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundActive))
                     textViewPlayer2.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundInactive))
                     textViewTurnScore.text = "0"
@@ -180,8 +177,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 else {
                     history.add("Player 2 passed")
-                    recyclerView.adapter = HistoryDataAdapter(history)
-                    recyclerView.layoutManager = LinearLayoutManager(this)
                     textViewP2Total.text = p2Total.toString()
                     textViewPlayer2.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundInactive))
                     textViewPlayer1.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundActive))
@@ -195,13 +190,9 @@ class MainActivity : AppCompatActivity() {
                 textViewTurnTotal.text = turnTotal.toString()
                 if (player1Active) {
                     history.add("Player 1 rolled $diNumber")
-                    recyclerView.adapter = HistoryDataAdapter(history)
-                    recyclerView.layoutManager = LinearLayoutManager(this)
                 }
                 if (!player1Active){
                     history.add("Player 2 rolled $diNumber")
-                    recyclerView.adapter = HistoryDataAdapter(history)
-                    recyclerView.layoutManager = LinearLayoutManager(this)
                 }
             } else {
                 textViewTurnScore.text = "0"
@@ -210,17 +201,15 @@ class MainActivity : AppCompatActivity() {
                     textViewPlayer2.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundActive))
                     textViewPlayer1.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundInactive))
                     history.add("Player 1 pigged out")
-                    recyclerView.adapter = HistoryDataAdapter(history)
-                    recyclerView.layoutManager = LinearLayoutManager(this)
                 } else {
                     textViewPlayer1.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundActive))
                     textViewPlayer2.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackgroundInactive))
                     history.add("Player 2 pigged out")
-                    recyclerView.adapter = HistoryDataAdapter(history)
-                    recyclerView.layoutManager = LinearLayoutManager(this)
                 }
             }
         }
+        recyclerView.adapter?.notifyDataSetChanged()
+        recyclerView.scrollToPosition(history.size - 1)
     }
 
 
