@@ -13,7 +13,7 @@
         android:layout_marginEnd="14dp"
         android:textAlignment="center"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/textViewOpened"
+        app:layout_constraintBottom_toTopOf="@+id/textViewState"
         app:layout_constraintEnd_toStartOf="@+id/textViewDescription"
         app:layout_constraintStart_toStartOf="parent"
         tools:text="Priority" />
@@ -25,7 +25,7 @@
         android:layout_marginEnd="4dp"
         android:textAlignment="center"
         android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewOpened"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewState"
         app:layout_constraintEnd_toStartOf="@+id/textViewEmoji"
         app:layout_constraintTop_toTopOf="@+id/textViewPriority"
         tools:text="Description" />
@@ -43,7 +43,7 @@
         tools:text="Emoji" />
 
     <TextView
-        android:id="@+id/textViewOpened"
+        android:id="@+id/textViewState"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
@@ -53,5 +53,5 @@
         app:layout_constraintEnd_toStartOf="@+id/textViewDescription"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewPriority"
-        tools:text="Opened" />
+        tools:text="State" />
 </androidx.constraintlayout.widget.ConstraintLayout>

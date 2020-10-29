@@ -14,7 +14,7 @@ class TaskListRecyclerAdapter (private val dataset: List<Task>) : RecyclerView.A
         val textViewDescription: TextView = listViewItem.findViewById<TextView>(R.id.textViewDescription)
         val textViewPriority: TextView = listViewItem.findViewById<TextView>(R.id.textViewPriority)
         val textViewEmoji: TextView = listViewItem.findViewById<TextView>(R.id.textViewEmoji)
-        val textViewOpened: TextView = listViewItem.findViewById<TextView>(R.id.textViewOpened)
+        val textViewOpened: TextView = listViewItem.findViewById<TextView>(R.id.textViewState)
     }
 
 
@@ -42,8 +42,8 @@ class TaskListRecyclerAdapter (private val dataset: List<Task>) : RecyclerView.A
             holder.textViewEmoji.text = "\uD83D\uDE00"
         }
 
-        if (dataset[position].opened != null) {
-            holder.textViewOpened.text = dataset[position].opened
+        if (dataset[position].state != null) {
+            holder.textViewOpened.text = dataset[position].state
         }
         else {
             holder.textViewOpened.text = ""

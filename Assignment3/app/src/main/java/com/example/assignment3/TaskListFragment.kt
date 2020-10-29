@@ -12,15 +12,15 @@ import com.example.assignment3.model.Task
 
 class TaskListFragment : Fragment() {
 
-    val dataController = TaskEntryController()
+
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        dataController.add(Task("Assignment 3", null, "high", null))
-        dataController.add(Task("Project 2", "\uD83D\uDE00", null, "closed"))
+        TaskEntryController.add(Task("Assignment 3", null, "high", null))
+        TaskEntryController.add(Task("Project 2", "\uD83D\uDE00", null, "opened"))
     }
 
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
@@ -29,7 +29,7 @@ class TaskListFragment : Fragment() {
 
         val recycler = view.findViewById<RecyclerView>(R.id.recyclerViewTaskList)
         recycler.layoutManager = LinearLayoutManager(this.context)
-        recycler.adapter = TaskListRecyclerAdapter(dataController.taskEntries)
+        recycler.adapter = TaskListRecyclerAdapter(TaskEntryController.taskEntries)
 
         return view
     }
