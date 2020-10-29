@@ -9,36 +9,49 @@
         android:id="@+id/textViewPriority"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="14dp"
+        android:textAlignment="center"
         android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewOpened"
+        app:layout_constraintEnd_toStartOf="@+id/textViewDescription"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         tools:text="Priority" />
 
     <TextView
         android:id="@+id/textViewDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:textAlignment="center"
         android:textSize="30sp"
-        app:layout_constraintStart_toEndOf="@+id/textViewPriority"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewOpened"
+        app:layout_constraintEnd_toStartOf="@+id/textViewEmoji"
+        app:layout_constraintTop_toTopOf="@+id/textViewPriority"
         tools:text="Description" />
 
     <TextView
         android:id="@+id/textViewEmoji"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:textAlignment="center"
         android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewDescription"
         app:layout_constraintStart_toEndOf="@+id/textViewDescription"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewDescription"
         tools:text="Emoji" />
 
     <TextView
         android:id="@+id/textViewOpened"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="14dp"
+        android:textAlignment="center"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textViewEmoji"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textViewDescription"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewPriority"
         tools:text="Opened" />
 </androidx.constraintlayout.widget.ConstraintLayout>

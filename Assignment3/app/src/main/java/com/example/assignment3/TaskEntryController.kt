@@ -1,5 +1,7 @@
 package com.example.assignment3
 
+import com.example.assignment3.model.Task
+
 class TaskEntryController {
 
     private val tasks = ArrayList<Task>()

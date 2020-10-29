@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.assignment3.model.Task
 
 class TaskListRecyclerAdapter (private val dataset: List<Task>) : RecyclerView.Adapter<TaskListRecyclerAdapter.ViewHolder>() {
 
@@ -24,10 +25,29 @@ class TaskListRecyclerAdapter (private val dataset: List<Task>) : RecyclerView.A
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
         holder.textViewDescription.text = dataset[position].description
-        holder.textViewPriority.text = dataset[position].priority
-        holder.textViewEmoji.text = dataset[position].emoji
-        holder.textViewOpened.text = dataset[position].opened.toString()
+
+        if (dataset[position].priority != null) {
+            holder.textViewPriority.text = dataset[position].priority
+        }
+        else {
+            holder.textViewPriority.text = ""
+        }
+
+        if (dataset[position].emoji != null) {
+            holder.textViewEmoji.text = dataset[position].emoji
+        }
+        else {
+            holder.textViewEmoji.text = "\uD83D\uDE00"
+        }
+
+        if (dataset[position].opened != null) {
+            holder.textViewOpened.text = dataset[position].opened
+        }
+        else {
+            holder.textViewOpened.text = ""
+        }
     }
 
     override fun getItemCount(): Int {
