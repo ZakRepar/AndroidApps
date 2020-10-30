@@ -6,14 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
+import android.widget.RadioButton
 import androidx.navigation.fragment.findNavController
 import com.example.assignment3.model.Task
 import kotlinx.android.synthetic.main.fragment_task_create.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
+const val ARG_ENTRY_INDEX = "entryIndex"
 
 /**
  * A simple [Fragment] subclass.
@@ -22,12 +26,16 @@ private const val ARG_PARAM2 = "param2"
  */
 class taskCreateFragment : Fragment() {
 
+    private var entryIndex: Int? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-
+            entryIndex = it.getInt(ARG_ENTRY_INDEX)
         }
     }
+
+
 
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -36,8 +44,34 @@ class taskCreateFragment : Fragment() {
         view.findViewById<Button>(R.id.buttonSave).setOnClickListener {
             onSaveCLick()
         }
+
+        if (entryIndex!=null) {
+
+            val entry = TaskEntryController.taskEntries[entryIndex!!]
+            view.findViewById<EditText>(R.id.editTextDescription).setText(entry.description)
+
+            when(entry.emoji) {
+                getString(R.string.task_upcoming_emoji)-> view.findViewById<RadioButton>(R.id.radioButtonUpcoming).isChecked = true
+                getString(R.string.task_completed_emoji) -> view.findViewById<RadioButton>(R.id.radioButtonCompleted).isChecked = true
+                getString(R.string.task_doToday_emoji) -> view.findViewById<RadioButton>(R.id.radioButtonDoToday).isChecked = true
+            }
+
+            when(entry.priority) {
+                getString(R.string.priority_high) -> view.findViewById<RadioButton>(R.id.radioButtonHigh).isChecked = true
+                getString(R.string.priority_low) -> view.findViewById<RadioButton>(R.id.radioButtonLow).isChecked = true
+                getString(R.string.priority_medium) -> view.findViewById<RadioButton>(R.id.radioButtonMedium).isChecked = true
+            }
+
+            when(entry.priority) {
+                getString(R.string.state_opened) -> view.findViewById<RadioButton>(R.id.radioButtonOpened).isChecked = true
+                getString(R.string.state_closed) -> view.findViewById<RadioButton>(R.id.radioButtonClosed).isChecked = true
+            }
+        }
+
         return view
     }
+
+
 
     companion object {
         /**
@@ -60,6 +94,8 @@ class taskCreateFragment : Fragment() {
     } //end companion
 
 
+
+
     private fun onSaveCLick() {
 
         val description = editTextDescription.text.toString()
@@ -78,10 +114,14 @@ class taskCreateFragment : Fragment() {
         if (radioButtonOpened.isChecked) state = radioButtonOpened.text.toString()
         if (radioButtonClosed.isChecked) state = radioButtonClosed.text.toString()
 
-        if (description != null) {
-            val task = Task(description, emoji, priority, state)
-            TaskEntryController.add(task)
+        val task = Task(description, emoji, priority, state)
+        TaskEntryController.add(task)
 
+        if (entryIndex != null) {
+            TaskEntryController.update(task, entryIndex!!)
+        }
+        else {
+            TaskEntryController.add(task)
         }
 
         findNavController().popBackStack()

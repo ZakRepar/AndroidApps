@@ -1,6 +1,7 @@
 package com.example.assignment3
 
 import com.example.assignment3.model.Task
+import java.security.acl.AclEntry
 
 object TaskEntryController {
 
@@ -11,6 +12,14 @@ object TaskEntryController {
     fun add(task: Task) {
         if (tasks.find { it.description == task.description } == null ) {
             tasks.add(task)
+        }
+    }
+
+
+
+    fun update(task: Task, position: Int) {
+        if ((position >= 0) && (position <= tasks.size)) {
+            tasks[position] = task
         }
     }
 
