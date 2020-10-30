@@ -19,8 +19,8 @@ class TaskListFragment : Fragment(), TaskListRecyclerAdapter.OnItemClickListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        TaskEntryController.add(Task("Assignment 3", null, "high", null))
-        TaskEntryController.add(Task("Project 2", "\uD83D\uDE00", null, "opened"))
+        TaskEntryController.add(Task("Assignment 3", null, "High", "Closed"))
+        TaskEntryController.add(Task("Project 2", "\uD83D\uDE00", null, "Opened"))
     }
 
 
