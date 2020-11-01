@@ -1,6 +1,7 @@
 package com.example.assignment3
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +11,9 @@ import android.widget.EditText
 import android.widget.RadioButton
 import androidx.navigation.fragment.findNavController
 import com.example.assignment3.model.Task
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_task_create.*
+import java.io.File
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -18,6 +21,9 @@ import kotlinx.android.synthetic.main.fragment_task_create.*
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 const val ARG_ENTRY_INDEX = "entryIndex"
+private const val TAG = "JSONTaskFile"
+private const val FILENAME = "task.json"
+
 
 /**
  * A simple [Fragment] subclass.
@@ -62,7 +68,7 @@ class taskCreateFragment : Fragment() {
                 getString(R.string.priority_medium) -> view.findViewById<RadioButton>(R.id.radioButtonMedium).isChecked = true
             }
 
-            when(entry.priority) {
+            when(entry.state) {
                 getString(R.string.state_opened) -> view.findViewById<RadioButton>(R.id.radioButtonOpened).isChecked = true
                 getString(R.string.state_closed) -> view.findViewById<RadioButton>(R.id.radioButtonClosed).isChecked = true
             }
@@ -125,6 +131,42 @@ class taskCreateFragment : Fragment() {
         }
 
         findNavController().popBackStack()
+
+        val gson = Gson()
+        var taskJSON = gson.toJson(task)
+
+        Log.d(TAG, "task as JSON: $taskJSON")
+
+        val path = context?.getExternalFilesDir(null)
+        val file = File(path, FILENAME)
+
+        if(!file.exists()) {
+            file.createNewFile()
+        }
+
+        file.writeText(taskJSON)
+
+        Log.d(TAG, "finished writing task JSON")
+
+
+
+        if (file.exists()) {
+            //read the data
+
+            val bufferedReader = file.bufferedReader()
+
+            val taskJSON = bufferedReader.use { it.readText() }
+
+            Log.d(TAG, "task data read : $taskJSON")
+
+            val gson = Gson()
+            val task = gson.fromJson<Task>(taskJSON, Task::class.java)
+
+            Log.d(TAG, "saved task description is ${task.description}")
+        }
+        else {
+            Log.d(TAG, "no task saved")
+        }
     }
 
 } // end class
