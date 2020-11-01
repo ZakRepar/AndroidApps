@@ -21,8 +21,7 @@ import java.io.File
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 const val ARG_ENTRY_INDEX = "entryIndex"
-private const val TAG = "JSONTaskFile"
-private const val FILENAME = "task.json"
+
 
 
 /**
@@ -131,42 +130,6 @@ class taskCreateFragment : Fragment() {
         }
 
         findNavController().popBackStack()
-
-        val gson = Gson()
-        var taskJSON = gson.toJson(task)
-
-        Log.d(TAG, "task as JSON: $taskJSON")
-
-        val path = context?.getExternalFilesDir(null)
-        val file = File(path, FILENAME)
-
-        if(!file.exists()) {
-            file.createNewFile()
-        }
-
-        file.writeText(taskJSON)
-
-        Log.d(TAG, "finished writing task JSON")
-
-
-
-        if (file.exists()) {
-            //read the data
-
-            val bufferedReader = file.bufferedReader()
-
-            val taskJSON = bufferedReader.use { it.readText() }
-
-            Log.d(TAG, "task data read : $taskJSON")
-
-            val gson = Gson()
-            val task = gson.fromJson<Task>(taskJSON, Task::class.java)
-
-            Log.d(TAG, "saved task description is ${task.description}")
-        }
-        else {
-            Log.d(TAG, "no task saved")
-        }
     }
 
 } // end class
