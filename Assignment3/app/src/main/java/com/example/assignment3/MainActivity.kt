@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
     }
 
-
+/*
     override fun onDestroy() {
         super.onDestroy()
 
@@ -42,9 +42,9 @@ class MainActivity : AppCompatActivity() {
 
         Log.d(TAG, "finished writing task JSON")
     }
+*/
 
-
-
+/*
     override fun onStart() {
         super.onStart()
 
@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
             Log.d(TAG, "no task saved")
         }
     }
-
+*/
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
