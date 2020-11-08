@@ -1,4 +1,4 @@
-package comp4290.Assignment4
+package com.example.assignment4
 
 class CryptoController {
 

@@ -1,10 +1,11 @@
-package comp4290.Assignment4
+package com.example.assignment4
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+
 
 class CryptoRecyclerAdapter (private val controller: CryptoController) : RecyclerView.Adapter<CryptoRecyclerAdapter.ViewHolder>() {
 
