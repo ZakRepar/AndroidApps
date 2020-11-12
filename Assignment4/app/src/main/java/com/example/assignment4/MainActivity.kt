@@ -5,16 +5,21 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
+import java.net.URL
 
 class MainActivity : AppCompatActivity() {
 
 
     var recyclerView: RecyclerView? = null
 
-    private var controller = CryptoController()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,11 +27,23 @@ class MainActivity : AppCompatActivity() {
 
         recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
 
-        recyclerView?.adapter = CryptoRecyclerAdapter(controller)
         recyclerView?.layoutManager = LinearLayoutManager(this)
 
         if (isNetworkConnected()) {
 
+                doAsync {
+                    val endPoint = "https://api.coingecko.com/api/v3/coins"
+                    val jsonString = URL(endPoint).readText()
+
+                    Log.d("Crypto", jsonString)
+
+                    val type = object: TypeToken<ArrayList<Crypto>>() {}.type
+                    val cryptoList = Gson().fromJson<ArrayList<Crypto>>(jsonString, type)
+
+                    Log.d("Crypto", "$cryptoList")
+
+                    uiThread { recyclerView?.adapter = CryptoRecyclerAdapter(CryptoController(cryptoList)) }
+                }
         }
         else {
             AlertDialog.Builder(this).setTitle("Error...")

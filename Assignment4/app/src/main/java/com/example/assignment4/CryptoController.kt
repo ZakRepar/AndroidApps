@@ -1,17 +1,17 @@
 package com.example.assignment4
 
-class CryptoController {
+class CryptoController (var cryptos: ArrayList<Crypto>){
 
-    var cryptoList : MutableList<Crypto> = mutableListOf<Crypto>()
+    //var cryptos = mutableListOf<Crypto>()
 
-    val size: Int get() { return cryptoList.size }
+    val size: Int get() { return cryptos.size }
 
 
 
     fun cryptoAtIndex(index: Int) : Crypto? {
 
-        if ((index >= 0) && (index <= cryptoList.size)) {
-            return cryptoList[index]
+        if ((index >= 0) && (index <= cryptos.size)) {
+            return cryptos[index]
         }
 
         return null
@@ -21,8 +21,8 @@ class CryptoController {
 
     fun add(crypto: Crypto) {
 
-        if (cryptoList.find { it.id == crypto.id } == null) {
-            cryptoList.add(crypto)
+        if (cryptos.find { it.id == crypto.id } == null) {
+            cryptos.add(crypto)
         }
     }
 
