@@ -8,7 +8,7 @@ interface CoinAPI {
     //https://api.coingecko.com/api/v3/coins
 
 
-    @GET("cryptos")
+    @GET("coins")
     suspend fun getCoins() : List<Coin>
 
 } // end interface

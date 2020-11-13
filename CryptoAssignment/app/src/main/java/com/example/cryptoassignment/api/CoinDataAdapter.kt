@@ -9,7 +9,7 @@ class CoinDataAdapter {
     val service: CoinAPI
 
     companion object{
-        const val BASE_URL = "https://api.coingecko.com/api/v3/coins"
+        const val BASE_URL = "https://api.coingecko.com/api/v3/"
     }
 
 
