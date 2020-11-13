@@ -7,13 +7,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoassignment.model.CoinController
 import kotlinx.coroutines.CoroutineExceptionHandler
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class ListFragment : Fragment() {
+class ListFragment : Fragment(), CoinRecyclerAdapter.CoinRecyclerAdapterDelegate {
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -38,9 +40,10 @@ class ListFragment : Fragment() {
 
             CoinController.refresh(errorHandler) {
 
-                Log.d("Coin", "==== Got Data ====")
+                val recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerView)
 
-                Log.d("Coin", "${CoinController.coins}")
+                recyclerView?.layoutManager = LinearLayoutManager(view?.context)
+                recyclerView?.adapter = CoinRecyclerAdapter(CoinController, this)
             }
         }
 
@@ -63,6 +66,12 @@ class ListFragment : Fragment() {
         }
 
         return null
+    }
+
+
+
+    override fun onItemClick(position: Int) {
+        TODO("Not yet implemented")
     }
 
 } // end class
