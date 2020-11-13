@@ -41,9 +41,9 @@ class CoinRecyclerAdapter (private val controller : CoinController,
         val coin = controller.getCoinAtPosition(position)
 
         if (coin != null) {
-            holder.textViewLogo.text = coin.logo.orEmpty()
+            holder.textViewLogo.text = coin.logo.toString()
             holder.textViewID.text = coin.id
-            holder.textViewPrice.text = coin.price.orEmpty()
+            holder.textViewPrice.text = coin.price.toString()
             holder.textViewSymbol.text = coin.symbol.orEmpty()
         }
     }
