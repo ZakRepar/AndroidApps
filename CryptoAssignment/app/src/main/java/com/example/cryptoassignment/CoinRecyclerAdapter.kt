@@ -16,7 +16,7 @@ class CoinRecyclerAdapter (private val controller : CoinController,
 
     inner class ViewHolder(private val coinItemView: View, private val delegate: CoinRecyclerAdapterDelegate) : RecyclerView.ViewHolder(coinItemView) {
 
-        val textViewLogo: TextView = coinItemView.findViewById<TextView>(R.id.textViewLogo)
+        val textViewLogo: TextView = coinItemView.findViewById<TextView>(R.id.imageViewLogo)
         val textViewID: TextView = coinItemView.findViewById<TextView>(R.id.textViewID)
         val textViewPrice: TextView = coinItemView.findViewById<TextView>(R.id.textViewPrice)
         val textViewSymbol: TextView = coinItemView.findViewById<TextView>(R.id.textViewSymbol)
