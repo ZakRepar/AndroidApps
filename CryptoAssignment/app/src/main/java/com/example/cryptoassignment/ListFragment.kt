@@ -2,7 +2,6 @@ package com.example.cryptoassignment
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -32,7 +31,7 @@ class ListFragment : Fragment(), CoinRecyclerAdapter.CoinRecyclerAdapterDelegate
             view.findViewById<TextView>(R.id.textViewSymbol).text = coin?.symbol.orEmpty()
             view.findViewById<TextView>(R.id.textViewPrice).text = coin?.price.toString()
 
-            Picasso.get().load(coin?.logo?.get(0)).placeholder(R.drawable.coin_default_detail_image).into(view.findViewById<ImageView>(R.id.imageViewLogo))
+            Picasso.get().load(coin?.image?.thumb).placeholder(R.drawable.coin_default_detail_image).into(view.findViewById<ImageView>(R.id.imageViewLogo))
         }
 
         return view
