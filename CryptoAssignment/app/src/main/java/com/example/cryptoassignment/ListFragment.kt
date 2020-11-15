@@ -27,9 +27,9 @@ class ListFragment : Fragment(), CoinRecyclerAdapter.CoinRecyclerAdapterDelegate
         if(entryIndex != null) {
             val coin = CoinController.getCoinAtPosition(entryIndex!!)
 
-            view.findViewById<TextView>(R.id.textViewID).text = coin?.id.orEmpty()
-            view.findViewById<TextView>(R.id.textViewSymbol).text = coin?.symbol.orEmpty()
-            view.findViewById<TextView>(R.id.textViewPrice).text = coin?.market_data.toString()
+            //view.findViewById<TextView>(R.id.textViewID).text = coin?.id.orEmpty()
+            //view.findViewById<TextView>(R.id.textViewSymbol).text = coin?.symbol.orEmpty()
+            //view.findViewById<TextView>(R.id.textViewPrice).text = coin?.usd.toString()
 
             Picasso.get().load(coin?.image?.thumb).placeholder(R.drawable.coin_default_detail_image).into(view.findViewById<ImageView>(R.id.imageViewLogo))
         }

@@ -42,8 +42,9 @@ class CoinRecyclerAdapter (private val controller : CoinController,
         val coin = controller.getCoinAtPosition(position)
 
         if (coin != null) {
+            //holder.imageViewLogo. = Picasso.get().load(coin?.image?.thumb).placeholder(R.drawable.coin_default_detail_image).into(view.findViewById<ImageView>(R.id.imageViewLogo))
             holder.textViewID.text = coin.id
-            holder.textViewPrice.text = coin.market_data.toString()
+            holder.textViewPrice.text = coin.usd.toString()
             holder.textViewSymbol.text = coin.symbol.orEmpty()
         }
     }
