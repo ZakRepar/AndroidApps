@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoassignment.model.CoinController
+import com.squareup.picasso.Picasso
 
 class CoinRecyclerAdapter (private val controller : CoinController,
                            private val delegate: CoinRecyclerAdapterDelegate): RecyclerView.Adapter<CoinRecyclerAdapter.ViewHolder>() {
@@ -41,7 +42,6 @@ class CoinRecyclerAdapter (private val controller : CoinController,
         val coin = controller.getCoinAtPosition(position)
 
         if (coin != null) {
-            holder.imageViewLogo. = Picasso.get().load(coin.image?.thumb).placeholder(R.drawable.coin_default_detail_image).into(R.id.imageViewLogo)
             holder.textViewID.text = coin.id
             holder.textViewPrice.text = coin.market_data.toString()
             holder.textViewSymbol.text = coin.symbol.orEmpty()

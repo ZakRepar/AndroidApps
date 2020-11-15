@@ -8,4 +8,4 @@ class CoinImages(val thumb: String?, val small: String?, val large: String){
 
 class PriceList(val current_price: List<CurrentPrice>?)
 
-class CurrentPrice(val usd: String?, val price: Double?)
+class CurrentPrice(val origin: String?, val price: Double?)
