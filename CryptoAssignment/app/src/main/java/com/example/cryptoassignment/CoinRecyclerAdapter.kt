@@ -1,5 +1,6 @@
 package com.example.cryptoassignment
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +17,7 @@ class CoinRecyclerAdapter (private val controller : CoinController,
         fun onItemClick(position: Int)
     }
 
-    inner class ViewHolder(private val coinItemView: View, private val delegate: CoinRecyclerAdapterDelegate) : RecyclerView.ViewHolder(coinItemView) {
+    inner class ViewHolder(coinItemView: View, private val delegate: CoinRecyclerAdapterDelegate) : RecyclerView.ViewHolder(coinItemView) {
 
         val imageViewLogo: ImageView = coinItemView.findViewById<ImageView>(R.id.imageViewLogo)
         val textViewID: TextView = coinItemView.findViewById<TextView>(R.id.textViewID)
@@ -30,6 +31,7 @@ class CoinRecyclerAdapter (private val controller : CoinController,
         }
     }
 
+    
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val coinItemView = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent,false)
 
@@ -37,14 +39,16 @@ class CoinRecyclerAdapter (private val controller : CoinController,
     }
 
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val coin = controller.getCoinAtPosition(position)
 
         if (coin != null) {
-            //holder.imageViewLogo. = Picasso.get().load(coin?.image?.thumb).placeholder(R.drawable.coin_default_detail_image).into(view.findViewById<ImageView>(R.id.imageViewLogo))
+
+            Picasso.get().load(coin.image?.thumb).placeholder(R.drawable.coin_default_detail_image).into(holder.imageViewLogo)
             holder.textViewID.text = coin.id
-            holder.textViewPrice.text = coin.usd.toString()
+            holder.textViewPrice.text = "$" + String.format("%.2f", coin.market_data?.getPrice())
             holder.textViewSymbol.text = coin.symbol.orEmpty()
         }
     }
