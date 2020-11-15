@@ -36,7 +36,7 @@
         android:layout_width="116dp"
         android:layout_height="112dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:src="@drawable/coin_default_detail_image"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -45,7 +45,6 @@
         android:id="@+id/textViewSymbol"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="@+id/imageViewLogo"
         app:layout_constraintStart_toStartOf="@+id/imageViewLogo"
         app:layout_constraintTop_toBottomOf="@+id/imageViewLogo"
