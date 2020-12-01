@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class AddressDataAdapter {
 
-    val service: ISSAPI
+    private val service: ISSAPI
 
     companion object {
         const val BASE_URL = "http://api.open-notify.org/"
@@ -28,7 +28,7 @@ class AddressDataAdapter {
 
 
 
-    suspend fun getAddress() : List<Address> {
+    suspend fun getAddress(latitude: String? = null, longitude: String? = null) : List<Address> {
         return service.getAddress()
     }
 
