@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.example.finalassignment.address.Address
 import com.example.finalassignment.api.AddressDataAdapter
@@ -17,6 +18,8 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.coroutines.CoroutineExceptionHandler
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -66,7 +69,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 }
 
                 if (geocodeMatches != null) {
-                    val loc = LatLng(geocodeMatches[0].request?.latitude.toDouble(), geocodeMatches[0].request.longitude.toDouble())
+                    val loc = LatLng(geocodeMatches[0].request.latitude.toDouble(), geocodeMatches[0].request.longitude.toDouble())
                     mMap.addMarker((MarkerOptions().position(loc).title(query)))
                 }
                 return false
@@ -77,6 +80,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 return false
             }
         } )
+
+        mMap.setOnMarkerClickListener { marker ->
+
+            val time: Long = 2 //replace with risetime
+            val date = Date(time * 1000)
+
+            val formatter = SimpleDateFormat("MM/dd/yyyy hh:mm a")
+            Log.d("address", formatter.format(date))
+
+            Toast.makeText(this, "${marker.title}\n(${formatter}", Toast.LENGTH_LONG).show()
+            false
+        }
 
 
         fun createErrorHandler(): CoroutineExceptionHandler {
