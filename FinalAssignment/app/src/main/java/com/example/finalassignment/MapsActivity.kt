@@ -51,25 +51,24 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
 
-        /*
-        var geocodeMatches: Address
-        try {
-            //geocodeMatches = Geocoder(this).getFromLocation( from search bar)
-        } catch (e: IOException) {
-            //send error message
-        }
-
-        //set marker
-
-        */
 
 
-        val searchView = findViewById<SearchView>(R.id.seacrhView)
+        val searchView = findViewById<SearchView>(R.id.searchView)
 
         searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit (query: String) : Boolean {
-                Log.d("address", query)
+                var geocodeMatches: List<Address>? = null
+                try {
+                    geocodeMatches = Geocoder(this).getFromLocationName(query, 1)
+                } catch (e: IOException) {
+                    //send error message
+                }
+
+                if (geocodeMatches != null) {
+                    val loc = LatLng(geocodeMatches[0].request?.latitude.toDouble(), geocodeMatches[0].request.longitude.toDouble())
+                    mMap.addMarker((MarkerOptions().position(loc).title(query)))
+                }
                 return false
             }
 
@@ -79,7 +78,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         } )
 
-        /*
+
         fun createErrorHandler(): CoroutineExceptionHandler {
 
             return CoroutineExceptionHandler { _, exception ->
@@ -90,6 +89,5 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         .show()
             }
         }
-        */
     }
 }
