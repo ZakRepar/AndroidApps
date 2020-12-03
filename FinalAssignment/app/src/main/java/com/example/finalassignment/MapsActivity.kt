@@ -1,5 +1,6 @@
 package com.example.finalassignment
 
+import android.location.Address
 import android.location.Geocoder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,7 +8,7 @@ import android.util.Log
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.example.finalassignment.address.Address
+import com.example.finalassignment.address.ISSPassTime
 import com.example.finalassignment.api.AddressDataAdapter
 
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -63,21 +64,22 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             override fun onQueryTextSubmit (query: String) : Boolean {
                 var geocodeMatches: List<Address>? = null
                 try {
-                    geocodeMatches = Geocoder(this).getFromLocationName(query, 1)
+                    geocodeMatches = Geocoder(this@MapsActivity).getFromLocationName(query, 1)
                 } catch (e: IOException) {
                     createErrorHandler()
                 }
 
                 if (geocodeMatches != null) {
-                    val loc = LatLng(geocodeMatches[0].request.latitude.toDouble(), geocodeMatches[0].request.longitude.toDouble())
+                    val loc = LatLng(geocodeMatches[0].latitude, geocodeMatches[0].longitude)
                     mMap.addMarker((MarkerOptions().position(loc).title(loc.toString())))
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(loc))
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 8.0f))
                 }
                 return false
             }
 
             override fun onQueryTextChange(newText: String) : Boolean {
-                Log.d("address", newText)
+                Log.d("iss-pass.json", newText)
                 return false
             }
         } )
@@ -88,7 +90,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             val date = Date(time * 1000)
 
             val formatter = SimpleDateFormat("MM/dd/yyyy hh:mm a")
-            Log.d("address", formatter.format(date))
+            Log.d("iss-pass.json", formatter.format(date))
 
             Toast.makeText(this, "${marker.title}\n(${formatter}", Toast.LENGTH_LONG).show()
             false

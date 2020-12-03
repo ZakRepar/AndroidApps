@@ -1,6 +1,6 @@
 package com.example.finalassignment.api
 
-import com.example.finalassignment.address.Address
+import com.example.finalassignment.address.ISSPassTime
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -28,7 +28,7 @@ class AddressDataAdapter {
 
 
 
-    suspend fun getAddress(latitude: String? = null, longitude: String? = null) : List<Address> {
+    suspend fun getAddress(latitude: String? = null, longitude: String? = null) : List<ISSPassTime> {
         return service.getAddress()
     }
 
