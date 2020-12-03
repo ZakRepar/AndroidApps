@@ -65,12 +65,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 try {
                     geocodeMatches = Geocoder(this).getFromLocationName(query, 1)
                 } catch (e: IOException) {
-                    //send error message
+                    createErrorHandler()
                 }
 
                 if (geocodeMatches != null) {
                     val loc = LatLng(geocodeMatches[0].request.latitude.toDouble(), geocodeMatches[0].request.longitude.toDouble())
                     mMap.addMarker((MarkerOptions().position(loc).title(query)))
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(loc))
                 }
                 return false
             }
@@ -92,17 +93,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             Toast.makeText(this, "${marker.title}\n(${formatter}", Toast.LENGTH_LONG).show()
             false
         }
+    }
 
+    fun createErrorHandler(): CoroutineExceptionHandler {
 
-        fun createErrorHandler(): CoroutineExceptionHandler {
-
-            return CoroutineExceptionHandler { _, exception ->
-                AlertDialog.Builder(this).setTitle("Error...")
-                        .setMessage(exception.message)
-                        .setPositiveButton(android.R.string.ok) { _, _ -> }
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show()
-            }
+        return CoroutineExceptionHandler { _, exception ->
+            AlertDialog.Builder(this).setTitle("Error: Invalid Address Entered!")
+                    .setMessage(exception.message)
+                    .setPositiveButton(android.R.string.ok) { _, _ -> }
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show()
         }
     }
 }
