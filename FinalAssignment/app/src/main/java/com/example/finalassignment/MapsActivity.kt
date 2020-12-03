@@ -70,7 +70,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                 if (geocodeMatches != null) {
                     val loc = LatLng(geocodeMatches[0].request.latitude.toDouble(), geocodeMatches[0].request.longitude.toDouble())
-                    mMap.addMarker((MarkerOptions().position(loc).title(query)))
+                    mMap.addMarker((MarkerOptions().position(loc).title(loc.toString())))
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(loc))
                 }
                 return false
@@ -84,7 +84,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         mMap.setOnMarkerClickListener { marker ->
 
-            val time: Long = 2 //replace with risetime
+            val time: Long = 2 //marker.request.risetime (correct this later)
             val date = Date(time * 1000)
 
             val formatter = SimpleDateFormat("MM/dd/yyyy hh:mm a")
