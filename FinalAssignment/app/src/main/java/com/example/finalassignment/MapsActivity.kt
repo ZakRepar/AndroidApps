@@ -86,11 +86,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         mMap.setOnMarkerClickListener { marker ->
 
-            val time: Long = 2 //marker.request.risetime (correct this later)
-            val date = Date(time * 1000)
-
+            val datetime: Long = 1605568424
+            val date = Date(datetime * 1000) //Date object takes milliseconds past 1/1/70
+            //use SimpleDateFormat to output a date as a string in the format you want
             val formatter = SimpleDateFormat("MM/dd/yyyy hh:mm a")
-            Log.d("iss-pass.json", formatter.format(date))
+            Log.d("iss-pass.json", "${formatter.format(date)}")
 
             Toast.makeText(this, "${marker.title}\n(${formatter}", Toast.LENGTH_LONG).show()
             false
