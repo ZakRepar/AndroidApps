@@ -28,7 +28,7 @@ class AddressDataAdapter {
 
 
 
-    suspend fun getAddress(latitude: String? = null, longitude: String? = null) : List<ISSPassTime> {
+    suspend fun getISSAPI(latitude: String? = null, longitude: String? = null) : List<ISSPassTime> {
         return service.getAddress()
     }
 
