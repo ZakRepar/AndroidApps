@@ -61,7 +61,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
         //read JSON
-        Log.d(TAG, "read array clicked")
+        Log.d(TAG, "read array")
 
         val path = this.getExternalFilesDir(null)
         val file = File(path, FILENAME_ARRAY)
@@ -71,35 +71,35 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
             val bufferedReader = file.bufferedReader()
 
-            val issPassTimeJSON = bufferedReader.use { it.readText() }
+            val locationsJSON = bufferedReader.use { it.readText() }
 
-            Log.d(TAG, "student array data read : $issPassTimeJSON")
+            Log.d(TAG, "student array data read : $locationsJSON")
 
             val gson = Gson()
 
             try {
 
-                val type = object: TypeToken<ArrayList<ISSPassTime>>() {}.type
-                val locations = gson.fromJson<ArrayList<ISSPassTime>>(issPassTimeJSON, type)
+                val type = object: TypeToken<ArrayList<LatLng>>() {}.type
+                val locations = gson.fromJson<ArrayList<LatLng>>(locationsJSON, type)
 
                 for (location in locations) {
-                    Log.d(TAG, "saved latitude name is ${location.request.latitude} and latitude ${location.request.latitude}")
+                    Log.d(TAG, "saved latitude is ${location.latitude} and latitude ${location.longitude}")
                 }
 
-                locations.add(ISSPassTime())
+                locations.add(LatLng(locations[0].latitude, locations[0].longitude))
 
                 for (location in locations) {
-                    Log.d(TAG, "saved latitude name is ${location.request.latitude} and latitude ${location.request.latitude}")
+                    Log.d(TAG, "saved latitude is ${location.latitude} and latitude ${location.longitude}")
                 }
 
             }
             catch(e: Exception) {
-                Log.d(TAG, "error parsing json : ${e.toString()} : '$issPassTimeJSON'")
+                Log.d(TAG, "error parsing json : ${e.toString()} : '$locationsJSON'")
             }
 
         }
         else {
-            Log.d(TAG, "no ISSPassTime data saved")
+            Log.d(TAG, "no location data saved")
         }
 
         searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
@@ -125,8 +125,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     //JSON write to file
                     Log.d(TAG, "write array clicked")
 
-                    val locations = ArrayList<ISSPassTime>()
-                    val currentLocation = //ISSPassTime object
+                    val locations = ArrayList<LatLng>()
+                    val currentLocation = LatLng(geocodeMatches[0].latitude, geocodeMatches[0].longitude)
                     locations.add(currentLocation)
 
 
@@ -144,7 +144,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                     file.writeText(locationsJSON)
 
-                    Log.d(TAG, "finished writing ISSPassTime array JSON")
+                    Log.d(TAG, "finished writing location array JSON")
                 }
                 return false
             }
@@ -157,8 +157,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         mMap.setOnMarkerClickListener { marker ->
 
-            val datetime: Long = //access ISSPassTime object
-            val date = Date(datetime * 1000) //Date object takes milliseconds past 1/1/70
+            val issPassTime: ISSPassTime = dataController.getISSAPI(marker.position.latitude, marker.position.longitude)
+            val datetime = issPassTime.request.datetime.toLong()
+            val date = Date(datetime * (1000)) //Date object takes milliseconds past 1/1/70
 
             //use SimpleDateFormat to output a date as a string in the format you want
             val formatter = SimpleDateFormat("MM/dd/yyyy hh:mm a")

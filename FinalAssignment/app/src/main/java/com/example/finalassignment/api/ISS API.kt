@@ -9,5 +9,5 @@ interface ISSAPI {
     //http://api.open-notify.org/iss-pass.json?lat=20&lon=20
 
     @GET("iss-pass.json")
-    suspend fun getAddress(@Query("lat") latitude:String? = null, @Query("lon") longitude:String? = null) : List<ISSPassTime>
+    suspend fun getAddress(@Query("lat") latitude: Double, @Query("lon") longitude: Double) : ISSPassTime
 }
